@@ -28,8 +28,8 @@ class Config:
     CORS_ORIGINS = [
         "http://localhost:*",
         "http://127.0.0.1:*",
-        "https://your-frontend-app.vercel.app",  # Update this after deploying frontend
-        "*"  # Remove this in production for security
+        "https://tracbyteamios.vercel.app",  # Your actual Vercel URL
+        "https://*.vercel.app"  # Allow all Vercel preview deployments
     ]
 
     # AI Model Configuration
