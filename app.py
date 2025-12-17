@@ -12,15 +12,18 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Initialize CORS with production settings
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": Config.CORS_ORIGINS,
-            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": True
-        }
-    })
+    # Initialize CORS - IMPORTANT FOR PRODUCTION
+    CORS(app,
+         resources={
+             r"/api/*": {
+                 "origins": Config.CORS_ORIGINS,
+                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                 "allow_headers": ["Content-Type", "Authorization"],
+                 "supports_credentials": True
+             }
+         },
+         origins=Config.CORS_ORIGINS,  # Also set at app level
+         supports_credentials=True)
 
     # Initialize database
     db.init_app(app)
@@ -81,10 +84,10 @@ def create_app():
             }
         })
 
-    # Health check endpoint
+    # Health check endpoint - IMPORTANT: Add CORS headers
     @app.route('/health')
     def health():
-        return jsonify({
+        response = jsonify({
             'success': True,
             'status': 'healthy',
             'services': {
@@ -93,6 +96,8 @@ def create_app():
                 'blockchain': 'polygon-mumbai'
             }
         })
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     # Error handlers
     @app.errorhandler(404)

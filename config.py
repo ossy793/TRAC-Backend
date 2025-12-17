@@ -19,17 +19,18 @@ class Config:
     NETWORK = os.environ.get('NETWORK') or 'polygon-mumbai'
     CHAIN_ID = int(os.environ.get('CHAIN_ID') or 80001)
 
-    # API Configuration - IMPORTANT FOR PRODUCTION
+    # API Configuration
     API_HOST = '0.0.0.0'
-    API_PORT = int(os.environ.get('PORT', 5000))  # Render uses PORT env variable
+    API_PORT = int(os.environ.get('PORT', 5000))
     DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-    # CORS - IMPORTANT: Add your Vercel domain
+    # CORS - IMPORTANT: Add your Vercel domain here
     CORS_ORIGINS = [
         "http://localhost:*",
         "http://127.0.0.1:*",
-        "https://tracbyteamios.vercel.app",  # Your actual Vercel URL
-        "https://*.vercel.app"  # Allow all Vercel preview deployments
+        "https://tracbyteamios.vercel.app",  # ✅ Your actual Vercel URL
+        "https://*.vercel.app",  # Allow all Vercel preview deployments
+        "*"  # Allow all origins (for testing only - remove in production)
     ]
 
     # AI Model Configuration
